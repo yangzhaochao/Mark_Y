@@ -1,1 +1,40 @@
+adb操作实现以下功能：
+1.使用genymotion安装一个应用
+adb install APK的相对路径+apk
+C:\Users\15061763>adb install C:\Users\15061763\Desktop\weixin_621.apk
+2357 KB/s (32250136 bytes in 13.357s)
+        pkg: /data/local/tmp/weixin_621.apk
+Success
+2.查看应用的package name
+  2.1查看终端中应用package name
+  
+  2|root@vbox86p:/ # adb shell
+* daemon not running. starting it now on port 5038 *
+* daemon started successfully *
+root@vbox86p:/ # cd data/data
+root@vbox86p:/data/data # ls -l
+drwxr-x--x u0_a0    u0_a0             2015-09-06 21:18 com.android.backupconfirm
 
+drwxr-x--x bluetooth bluetooth          2015-09-06 21:18 com.android.bluetooth
+drwxr-x--x u0_a18   u0_a18            2015-09-06 23:19 com.android.browser
+drwxr-x--x u0_a20   u0_a20            2015-09-06 21:18 com.android.calculator2
+drwxr-x--x u0_a21   u0_a21            2015-09-06 21:18 com.android.calendar
+drwxr-x--x u0_a36   u0_a36            2015-09-06 21:18 com.android.camera
+drwxr-x--x u0_a22   u0_a22            2015-09-06 21:18 com.android.certinstaller
+  或：C:\Users\15061763>adb shell pm list packages
+package:com.android.soundrecorder
+package:com.android.voicedialer
+package:com.android.launcher
+package:com.android.defcontainer
+package:com.tencent.mm
+package:com.android.quicksearchbox
+package:com.android.contacts
+package:com.android.inputmethod.latin
+package:com.android.phone
+package:com.android.calculator2
+package:com.android.proxyhandler
+package:com.android.htmlviewer
+  2.2查看单个应用package name
+  
+3.使用pull和push命令
+4.查看本地的共享文件或者db
