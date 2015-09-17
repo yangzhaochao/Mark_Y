@@ -1,0 +1,21 @@
+Monkey：
+
+#稳定性测试
+#单个apk
+#不考虑异常
+adb shell monke -p package --throttle 1000 --pct-touch 30 -s 200 -v -v -v 10000 >D:\Monkey_test.txt
+#考虑异常：
+adb shell monkey -p package --throttle 1000 --pct-touch 30 --pct-monitor 40 --pct-strckball 0 --ignore-crashes --ignore-timeouts -v -v -v 10000 D:\Monkey_testE.txt
+
+#多个apk
+#不考虑异常
+adb shell monkey -p package1 -p package2 --throttle 1000 --pct-touch 30 -s 200 -v -v -v 10000 >D:\Monkey_test.txt
+#考虑异常
+adb shell monkey -p package1 -p package2 --throttle 1000 --pct-touch 30 --pct-monitor 40 --pct-strckball 0 --ignore-crashes --ignore-timeouts -v -v -v 10000 D:\Monkey_testE.txt
+
+#压力测试
+#考虑--throttle值范围300~500之间
+adb shell monkey -p package --throttle 500 --pct --pct-touch 30 --pct-monitor 40 --pct-strckball 0 --ignore-crashes --ignore-timeouts -v -v -v 10000 D:\Monkey_test.txt
+
+#稳定性测试、压力测试考虑中测试应用程序允许发生许可错误、应用程序发生错误时、是否监视并报告应用程序发生崩溃的本地代码
+adb shell monkey -p  package --throttle time --ignore-scurity-exceptions --kill-process-after-error --monitor-native-crashes -v -v -v times >D:\Monkey_test.txt
