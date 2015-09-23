@@ -159,7 +159,7 @@ else:
     log.write("个人信息界面图片对比......\n")
 	
 #设置界面截图对比
-result2True=MonkeyRunner.loadImageFromFile('D:\\picture\\shottrue3.png')
+result2True=MonkeyRunner.loadImageFromFile('D:\\picture\\shottrue4.png')
 ##判断图片相识度是否是为90%
 if(result2.sameAs(result2True,0.9)):
     print("设置界面图片对比成功")
