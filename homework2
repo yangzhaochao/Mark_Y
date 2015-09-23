@@ -19,3 +19,151 @@ adb shell monkey -p package --throttle 500 --pct --pct-touch 30 --pct-monitor 40
 
 #稳定性测试、压力测试考虑中测试应用程序允许发生许可错误、应用程序发生错误时、是否监视并报告应用程序发生崩溃的本地代码
 adb shell monkey -p  package --throttle time --ignore-scurity-exceptions --kill-process-after-error --monitor-native-crashes -v -v -v times >D:\Monkey_test.txt
+
+
+
+#MonkeyRunner微博登陆注销及简单操作脚本
+
+#!/usr/bin/env monkeyrunner
+# encoding=utf-8  
+
+#导入python中自带的time模块和sys模块，脚本中都要用到它们。
+import time
+import sys
+#MonkeyRunner自带的三个api
+from com.android.monkeyrunner import MonkeyRunner ,MonkeyDevice ,MonkeyImage
+
+
+#这个函数时确认年月日时分秒
+now=time.strftime("%Y-%m-%d-%H-%M-%S")
+#指定我们要保存图片的位置和打印log的位置
+path='D:\\picture\\'
+logpath="D:\\log\\"
+
+#python中获取当前运行的文件的名字
+name=sys.argv[0].split("\\")
+filename=name[len(name)-1]
+
+#新建log文件
+log=open(logpath+filename[0:-3]+"-log"+now+".txt",'w')
+#连接设备
+device=MonkeyRunner.waitForConnection(5,'b4726a2d')
+
+#安装新浪微博
+device.installPackage ('D:\\apk\\新浪微博.apk'.decode('utf-8'))
+log.write("安装apk……\n")
+MonkeyRunner.sleep(2)
+
+#启动app
+device.startActivity(component='com.sina.weibo.SplashActivity')
+MonkeyRunner.sleep(5)
+log.write("启动app……\n")
+#截图
+result = device.takeSnapshot()
+#保存截图 
+result.writeToFile(path+"主页面".decode('utf-8')+now+'.png','png')
+
+#点击Login位置坐标。
+device.touch(972,152,'DOWN_AND_UP')
+MonkeyRunner.sleep(2)
+#登陆界面输入账号和密码
+device.type("chanper0117@163.com")
+MonkeyDevice.sleep(2)
+device.type("lgeswnj")
+#点击Login登陆
+device.type(516,988,'DOWN_AND_UP')
+#截图
+result1=device.takeSnapshot()
+#保存截图
+result1.writeToFile(path+"登陆界面截图".decode('utf-8')+'.png','png')
+MonkeyDevice.sleep(5)
+
+#进入微博
+device.touch(523,1532,'DOWN_AND_UP')
+#截图
+result2=device.takeSnapshot()
+#保存截图
+result2.writeToFile(path+"进入微博界面截图".decode('utf-8')+'.png','png')
+MonkeyDevice.sleep(3)
+#向上滑动
+device.drag((830,1472),(864,1000),2,1)
+MonkeyDevice.sleep(2)
+#截图
+result3=device.takeSnapshot()
+#保存截图
+result2.writeToFile(path+"微博信息界面截图".decode('utf-8')+'.png','png')
+MonkeyDevice.sleep(2)
+
+#进入ME界面
+device.touch(965,1708,'DOWN_AND_UP')
+#截图
+result3=device.takeSnapshot()
+#保存截图
+result3.writeToFile(path+"个人界面",decode('utf-8')+'.png','png')
+MonkeyDevice.sleep(1)
+#点击Setting位置
+device.touch(931.144,'DOWN_AND_UP')
+MonkeyDevice.sleep(1)
+#截图
+result4=device.takeSnapshot()
+#保存截图
+result4.writeToFile(path+"设置界面截图".decode('utf-8')+'.png','png')
+
+#点击退出微博
+device.touch(492,1592,'DOWN_AND_UP')
+MonkeyDevice.sleep(2)
+
+#和文件中图片对比
+resultTrue=MonkeyRunner.loadImageFromFile('D:\\picture\\shottrue.png')
+log.write("主页面对比图片\n")
+#判断图片相识度是否是为90%
+if(result.sameAs(resultTrue,0.9)):
+    #在命令行打印出信息
+    print("主页面图片对比成功")
+    #打印信息到log文件
+    log.write("主页面图片对比成功.....\n")
+else:
+    #打印信息到命令行
+    print("主页面图片对比失败")
+    log.write("主页面图片对比失败......\n")
+
+
+#登陆界面截图对比
+result1True=MonkeyRunner.loadImageFromFile('D:\\picture\\shottrue1.png')
+#判断图片相识度是否是为90%
+if(result1.sameAs(result1True,0.9)):
+    print("登陆界面图片对比成功")
+    log.write("登陆界面图片对比成功......\n")
+else:
+    print("登陆界面图片对比失败")
+    log.write("登陆界面图片对比失败......\n")
+
+#微博主信息界面截图对比
+result2True=MonkeyRunner.loadImageFromFile('D:\\picture\\shottrue2.png')
+##判断图片相识度是否是为90%
+if(result2.sameAs(result2True,0.9)):
+    print("微博主信息界面图片对比成功")
+    log.write("微博主信息界面图片对比成功......\n")
+else:
+    print("微博主信息界面图片对比")
+    log.write("微博主信息界面图片对比......\n")
+
+#个人界面截图对比
+result2True=MonkeyRunner.loadImageFromFile('D:\\picture\\shottrue3.png')
+##判断图片相识度是否是为90%
+if(result2.sameAs(result2True,0.9)):
+    print("个人信息界面图片对比成功")
+    log.write("个人信息图片对比成功......\n")
+else:
+    print("个人信息界面图片对比")
+    log.write("个人信息界面图片对比......\n")
+	
+#设置界面截图对比
+result2True=MonkeyRunner.loadImageFromFile('D:\\picture\\shottrue3.png')
+##判断图片相识度是否是为90%
+if(result2.sameAs(result2True,0.9)):
+    print("设置界面图片对比成功")
+    log.write("设置界面图片对比成功......\n")
+else:
+    print("设置界面图片对比")
+    log.write("设置界面图片对比......\n")
